@@ -15,5 +15,13 @@
   "dependencies": {
     "@react-dnd/invariant": "^2.0.0",
     "dnd-core": "^10.0.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-replace": "^2.3.1",
+    "babel-cli": "^6.26.0",
+    "rollup": "^1.31.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^5.2.0"
   }
 }
