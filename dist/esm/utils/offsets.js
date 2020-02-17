@@ -25,6 +25,7 @@ export function getEventClientTouchOffset(e, lastTargetTouchFallback) {
     }
   }
 }
+export function addClass(e, name) {}
 export function getEventClientOffset(e, lastTargetTouchFallback) {
   if (isTouchEvent(e)) {
     return getEventClientTouchOffset(e, lastTargetTouchFallback);

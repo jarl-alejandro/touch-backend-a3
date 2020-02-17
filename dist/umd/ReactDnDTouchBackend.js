@@ -89,6 +89,18 @@
   function isTouchEvent(e) {
     return !!e.targetTouches;
   }
+  function shouldIgnoreTarget(target) {
+    var $el = closest(target, '.TreeViewSection');
+    return !$el;
+  }
+  var closest = function closest(target, selector) {
+    while (target) {
+      if (target.matches && target.matches(selector)) return target;
+      target = target.parentNode;
+    }
+
+    return null;
+  };
 
   var ELEMENT_NODE = 1;
   function getNodeClientOffset(node) {
@@ -145,24 +157,6 @@
 
     return false;
   }
-
-  var supportsPassive = function () {
-    // simular to jQuery's test
-    var supported = false;
-
-    try {
-      addEventListener('test', function () {// do nothing
-      }, Object.defineProperty({}, 'passive', {
-        get: function get() {
-          supported = true;
-          return true;
-        }
-      }));
-    } catch (e) {// do nothing
-    }
-
-    return supported;
-  }();
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -279,6 +273,11 @@
         // 3. If there's an anchor link as a child, tap won't be triggered on link
 
 
+        if (!shouldIgnoreTarget(e.target)) {
+          e.target.classList.add('is-draggin-a3');
+          navigator.vibrate([1]);
+        }
+
         var clientOffset = getEventClientOffset(e);
 
         if (clientOffset) {
@@ -321,6 +320,7 @@
           return;
         }
 
+        e.target.classList.remove('is-draggin-a3');
         var moveStartSourceIds = _this.moveStartSourceIds,
             dragOverTargetIds = _this.dragOverTargetIds;
         var enableHoverOutsideTarget = _this.options.enableHoverOutsideTarget;
@@ -531,10 +531,7 @@
     }, {
       key: "addEventListener",
       value: function addEventListener(subject, event, handler, capture) {
-        var options = supportsPassive ? {
-          capture: capture,
-          passive: false
-        } : capture;
+        var options =  capture;
         this.listenerTypes.forEach(function (listenerType) {
           var evt = eventNames[listenerType][event];
 
@@ -546,10 +543,7 @@
     }, {
       key: "removeEventListener",
       value: function removeEventListener(subject, event, handler, capture) {
-        var options = supportsPassive ? {
-          capture: capture,
-          passive: false
-        } : capture;
+        var options =  capture;
         this.listenerTypes.forEach(function (listenerType) {
           var evt = eventNames[listenerType][event];
 

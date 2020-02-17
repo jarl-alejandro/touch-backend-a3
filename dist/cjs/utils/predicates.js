@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.eventShouldStartDrag = eventShouldStartDrag;
 exports.eventShouldEndDrag = eventShouldEndDrag;
 exports.isTouchEvent = isTouchEvent;
+exports.shouldIgnoreTarget = shouldIgnoreTarget;
+exports.closest = void 0;
 // Used for MouseEvent.buttons (note the s on the end).
 var MouseButtons = {
   Left: 1,
@@ -45,3 +47,19 @@ function eventShouldEndDrag(e) {
 function isTouchEvent(e) {
   return !!e.targetTouches;
 }
+
+function shouldIgnoreTarget(target) {
+  var $el = closest(target, '.TreeViewSection');
+  return !$el;
+}
+
+var closest = function closest(target, selector) {
+  while (target) {
+    if (target.matches && target.matches(selector)) return target;
+    target = target.parentNode;
+  }
+
+  return null;
+};
+
+exports.closest = closest;

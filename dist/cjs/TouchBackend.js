@@ -81,9 +81,12 @@ function () {
       // 3. If there's an anchor link as a child, tap won't be triggered on link
 
 
-			var clientOffset = (0, _offsets.getEventClientOffset)(e);
-			navigator.vibrate([500])
-			e.target.classList.add('is-draggin-a3')
+      if (!(0, _predicates.shouldIgnoreTarget)(e.target)) {
+        e.target.classList.add('is-draggin-a3');
+        navigator.vibrate([1]);
+      }
+
+      var clientOffset = (0, _offsets.getEventClientOffset)(e);
 
       if (clientOffset) {
         if ((0, _predicates.isTouchEvent)(e)) {
@@ -123,10 +126,9 @@ function () {
 
       if (!_this.document || _this.waitingForDelay) {
         return;
-			}
+      }
 
-			e.target.classList.remove('is-draggin-a3')
-
+      e.target.classList.remove('is-draggin-a3');
       var moveStartSourceIds = _this.moveStartSourceIds,
           dragOverTargetIds = _this.dragOverTargetIds;
       var enableHoverOutsideTarget = _this.options.enableHoverOutsideTarget;

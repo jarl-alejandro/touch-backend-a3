@@ -1,16 +1,29 @@
 {
-  "name": "react-dnd-touch-backend-a3",
-  "version": "1.0.4",
-  "description": "Touch backend for react-dnd",
-
+	"name": "react-dnd-touch-backend-a3",
+	"version": "1.0.10",
+	"description": "Touch backend for react-dnd",
 	"main": "./dist/cjs/index.js",
 	"module": "./dist/esm/index.js",
-
-  "types": "lib/index.d.ts",
-  "sideEffects": false,
-  "license": "MIT",
-  "dependencies": {
-    "@react-dnd/invariant": "^2.0.0",
-    "dnd-core": "^10.0.2"
-  }
+	"types": "lib/index.d.ts",
+	"sideEffects": false,
+	"license": "MIT",
+	"scripts": {
+		"build": "scripts/build_package.sh"
+	},
+	"dependencies": {
+		"@react-dnd/invariant": "^2.0.0",
+		"dnd-core": "^10.0.2"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.7.5",
+		"@babel/core": "^7.7.5",
+		"@babel/plugin-proposal-class-properties": "^7.7.4",
+		"@babel/plugin-proposal-object-rest-spread": "^7.7.4",
+		"@babel/preset-env": "^7.7.5",
+		"@rollup/plugin-replace": "^2.3.1",
+		"rollup-plugin-commonjs": "^10.1.0",
+		"rollup-plugin-node-resolve": "^5.2.0",
+		"rollup-plugin-terser": "^5.2.0",
+		"typescript": "^3.7.5"
+	}
 }

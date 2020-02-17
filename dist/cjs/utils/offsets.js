@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getNodeClientOffset = getNodeClientOffset;
 exports.getEventClientTouchOffset = getEventClientTouchOffset;
+exports.addClass = addClass;
 exports.getEventClientOffset = getEventClientOffset;
 
 var _predicates = require("./predicates");
@@ -37,6 +38,8 @@ function getEventClientTouchOffset(e, lastTargetTouchFallback) {
     }
   }
 }
+
+function addClass(e, name) {}
 
 function getEventClientOffset(e, lastTargetTouchFallback) {
   if ((0, _predicates.isTouchEvent)(e)) {

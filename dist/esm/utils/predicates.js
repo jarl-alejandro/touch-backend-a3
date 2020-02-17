@@ -35,3 +35,15 @@ export function eventShouldEndDrag(e) {
 export function isTouchEvent(e) {
   return !!e.targetTouches;
 }
+export function shouldIgnoreTarget(target) {
+  var $el = closest(target, '.TreeViewSection');
+  return !$el;
+}
+export var closest = function closest(target, selector) {
+  while (target) {
+    if (target.matches && target.matches(selector)) return target;
+    target = target.parentNode;
+  }
+
+  return null;
+};

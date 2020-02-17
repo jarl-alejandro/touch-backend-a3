@@ -10,7 +10,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 import { invariant } from '@react-dnd/invariant';
 import { ListenerType } from './interfaces';
-import { eventShouldStartDrag, eventShouldEndDrag, isTouchEvent } from './utils/predicates';
+import { eventShouldStartDrag, eventShouldEndDrag, isTouchEvent, shouldIgnoreTarget } from './utils/predicates';
 import { getEventClientOffset, getNodeClientOffset } from './utils/offsets';
 import { distance, inAngleRanges } from './utils/math';
 import supportsPassive from './utils/supportsPassive';
@@ -65,9 +65,12 @@ function () {
       // 3. If there's an anchor link as a child, tap won't be triggered on link
 
 
+      if (!shouldIgnoreTarget(e.target)) {
+        e.target.classList.add('is-draggin-a3');
+        navigator.vibrate([1]);
+      }
+
       var clientOffset = getEventClientOffset(e);
-			navigator.vibrate([500])
-			e.target.classList.add('is-draggin-a3')
 
       if (clientOffset) {
         if (isTouchEvent(e)) {
@@ -108,8 +111,8 @@ function () {
       if (!_this.document || _this.waitingForDelay) {
         return;
       }
-			e.target.classList.remove('is-draggin-a3')
 
+      e.target.classList.remove('is-draggin-a3');
       var moveStartSourceIds = _this.moveStartSourceIds,
           dragOverTargetIds = _this.dragOverTargetIds;
       var enableHoverOutsideTarget = _this.options.enableHoverOutsideTarget;
