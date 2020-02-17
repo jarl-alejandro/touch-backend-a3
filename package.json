@@ -1,0 +1,19 @@
+{
+  "name": "react-dnd-touch-backend-a3",
+  "version": "1.0.0",
+  "description": "Touch backend for react-dnd",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "lib/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "scripts": {
+    "clean": "scripts/clean_package.sh",
+    "build": "scripts/build_package.sh",
+    "start": "scripts/watch_package.sh"
+  },
+  "dependencies": {
+    "@react-dnd/invariant": "^2.0.0",
+    "dnd-core": "^10.0.2"
+  }
+}
