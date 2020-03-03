@@ -1,5 +1,0 @@
-import { XYCoord } from 'dnd-core';
-export declare function getNodeClientOffset(node: any): XYCoord | undefined;
-export declare function getEventClientTouchOffset(e: TouchEvent, lastTargetTouchFallback?: Touch): XYCoord | undefined;
-export declare function addClass(e: TouchEvent, name: String): void;
-export declare function getEventClientOffset(e: TouchEvent | Touch | MouseEvent, lastTargetTouchFallback?: Touch): XYCoord | undefined;

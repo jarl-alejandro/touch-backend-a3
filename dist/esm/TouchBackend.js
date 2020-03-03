@@ -443,10 +443,11 @@ function () {
   }, {
     key: "getTopMoveStartHandler",
     value: function getTopMoveStartHandler() {
-      if (!this.options.delayTouchStart && !this.options.delayMouseStart) {
-        return this.handleTopMoveStart;
-      }
-
+      /*
+           if (!this.options.delayTouchStart && !this.options.delayMouseStart) {
+               return this.handleTopMoveStart;
+      	}
+      	*/
       return this.handleTopMoveStartDelay;
     }
   }, {
