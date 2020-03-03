@@ -82,7 +82,7 @@ function () {
 
 
       if (!(0, _predicates.shouldIgnoreTarget)(e.target)) {
-        var $el = (0, _predicates.closest)(target, '.TreeView-box');
+        var $el = (0, _predicates.closest)(e.target, '.TreeView-box');
         console.log($el);
 
         if ($el) {
@@ -119,25 +119,26 @@ function () {
     };
 
     this.handleMove = function (_, targetId) {
+      var dragging = document.querySelector('.is-draggin-a3');
+      console.log(dragging);
+      if (dragging) dragging.classList.remove('is-draggin-a3');
+
       if (_this.dragOverTargetIds) {
         _this.dragOverTargetIds.unshift(targetId);
       }
     };
 
     this.handleTopMove = function (e) {
+      var dragging = document.querySelector('.is-draggin-a3');
+      console.log(dragging);
+      if (dragging) dragging.classList.remove('is-draggin-a3');
+
       if (_this.timeout) {
         clearTimeout(_this.timeout);
       }
 
       if (!_this.document || _this.waitingForDelay) {
         return;
-      }
-
-      var dragging = document.querySelector('.is-draggin-a3');
-      console.log(dragging);
-
-      if (dragging) {
-        dragging.classList.remove('is-draggin-a3');
       }
 
       var moveStartSourceIds = _this.moveStartSourceIds,
@@ -242,6 +243,9 @@ function () {
     };
 
     this.handleTopMoveEndCapture = function (e) {
+      var dragging = document.querySelector('.is-draggin-a3');
+      console.log(dragging);
+      if (dragging) dragging.classList.remove('is-draggin-a3');
       _this._isScrolling = false;
       _this.lastTargetTouchFallback = undefined;
 
@@ -332,7 +336,7 @@ function () {
       TouchBackend.isSetUp = false;
       this._mouseClientOffset = {};
       this.removeEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
-      this.removeEventListener(this.window, 'start', this.handleTopMoveStart);
+      this.removeEventListener(this.window, 'start', this.handleTopMoveStartDelay);
       this.removeEventListener(this.window, 'move', this.handleTopMoveCapture, true);
       this.removeEventListener(this.window, 'move', this.handleTopMove);
       this.removeEventListener(this.window, 'end', this.handleTopMoveEndCapture, true);
