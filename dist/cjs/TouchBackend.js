@@ -52,15 +52,16 @@ function () {
 
     _classCallCheck(this, TouchBackend);
 
+    this.managerTouch = manager;
+    this.contextTouch = context;
+    this.optionsTouch = options;
+
     this.getSourceClientOffset = function (sourceId) {
       return (0, _offsets.getNodeClientOffset)(_this.sourceNodes[sourceId]);
     };
 
     this.handleTopMoveStartCapture = function (e) {
-      if (!(0, _predicates.eventShouldStartDrag)(e)) {
-        return;
-      }
-
+      if (!(0, _predicates.eventShouldStartDrag)(e)) return;
       _this.moveStartSourceIds = [];
     };
 
@@ -80,6 +81,12 @@ function () {
       // 2. Mess up long tap (which brings up context menu)
       // 3. If there's an anchor link as a child, tap won't be triggered on link
 
+
+      console.log({
+        managerTouch: _this.managerTouch,
+        contextTouch: _this.contextTouch,
+        optionsTouch: _this.optionsTouch
+      });
 
       if (!(0, _predicates.shouldIgnoreTarget)(e.target)) {
         var $el = (0, _predicates.closest)(e.target, '.TreeView-box');
@@ -310,9 +317,9 @@ function () {
       }
 
       (0, _invariant.invariant)(!TouchBackend.isSetUp, 'Cannot have two Touch backends at the same time.');
-      TouchBackend.isSetUp = true; //this.addEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
-
-      this.addEventListener(this.window, 'start', this.handleTopMoveStartDelay);
+      TouchBackend.isSetUp = true;
+      this.addEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
+      this.addEventListener(this.window, 'start', this.getTopMoveStartHandler());
       this.addEventListener(this.window, 'move', this.handleTopMove);
       this.addEventListener(this.window, 'move', this.handleTopMoveCapture, true);
       this.addEventListener(this.window, 'end', this.handleTopMoveEndCapture, true);
@@ -333,9 +340,9 @@ function () {
       }
 
       TouchBackend.isSetUp = false;
-      this._mouseClientOffset = {}; //this.removeEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
-
-      this.removeEventListener(this.window, 'start', this.handleTopMoveStartDelay);
+      this._mouseClientOffset = {};
+      this.removeEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
+      this.removeEventListener(this.window, 'start', this.handleTopMoveStart);
       this.removeEventListener(this.window, 'move', this.handleTopMoveCapture, true);
       this.removeEventListener(this.window, 'move', this.handleTopMove);
       this.removeEventListener(this.window, 'end', this.handleTopMoveEndCapture, true);
@@ -473,11 +480,6 @@ function () {
   }, {
     key: "getTopMoveStartHandler",
     value: function getTopMoveStartHandler() {
-      /*
-           if (!this.options.delayTouchStart && !this.options.delayMouseStart) {
-               return this.handleTopMoveStart;
-      	}
-      	*/
       return this.handleTopMoveStartDelay;
     }
   }, {
