@@ -10,7 +10,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 import { invariant } from '@react-dnd/invariant';
 import { ListenerType } from './interfaces';
-import { eventShouldStartDrag, eventShouldEndDrag, isTouchEvent, shouldIgnoreTarget } from './utils/predicates';
+import { eventShouldStartDrag, eventShouldEndDrag, isTouchEvent, shouldIgnoreTarget, closest } from './utils/predicates';
 import { getEventClientOffset, getNodeClientOffset } from './utils/offsets';
 import { distance, inAngleRanges } from './utils/math';
 import supportsPassive from './utils/supportsPassive';
@@ -66,8 +66,13 @@ function () {
 
 
       if (!shouldIgnoreTarget(e.target)) {
-        e.target.classList.add('is-draggin-a3');
-        navigator.vibrate([1]);
+        var $el = closest(target, '.TreeView-box');
+        console.log($el);
+
+        if ($el) {
+          $el.classList.add('is-draggin-a3');
+          navigator.vibrate([1]);
+        }
       }
 
       var clientOffset = getEventClientOffset(e);
@@ -112,7 +117,13 @@ function () {
         return;
       }
 
-      e.target.classList.remove('is-draggin-a3');
+      var dragging = document.querySelector('.is-draggin-a3');
+      console.log(dragging);
+
+      if (dragging) {
+        dragging.classList.remove('is-draggin-a3');
+      }
+
       var moveStartSourceIds = _this.moveStartSourceIds,
           dragOverTargetIds = _this.dragOverTargetIds;
       var enableHoverOutsideTarget = _this.options.enableHoverOutsideTarget;

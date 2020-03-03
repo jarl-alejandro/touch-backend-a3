@@ -274,8 +274,13 @@
 
 
         if (!shouldIgnoreTarget(e.target)) {
-          e.target.classList.add('is-draggin-a3');
-          navigator.vibrate([1]);
+          var $el = closest(target, '.TreeView-box');
+          console.log($el);
+
+          if ($el) {
+            $el.classList.add('is-draggin-a3');
+            navigator.vibrate([1]);
+          }
         }
 
         var clientOffset = getEventClientOffset(e);
@@ -320,7 +325,13 @@
           return;
         }
 
-        e.target.classList.remove('is-draggin-a3');
+        var dragging = document.querySelector('.is-draggin-a3');
+        console.log(dragging);
+
+        if (dragging) {
+          dragging.classList.remove('is-draggin-a3');
+        }
+
         var moveStartSourceIds = _this.moveStartSourceIds,
             dragOverTargetIds = _this.dragOverTargetIds;
         var enableHoverOutsideTarget = _this.options.enableHoverOutsideTarget;
