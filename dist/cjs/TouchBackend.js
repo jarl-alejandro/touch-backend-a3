@@ -73,6 +73,11 @@ function () {
       }
     };
 
+    this.actionDragStart = function ($el) {
+      $el.classList.add('is-draggin-a3');
+      navigator.vibrate([1]);
+    };
+
     this.handleTopMoveStart = function (e) {
       if (!(0, _predicates.eventShouldStartDrag)(e)) {
         return;
@@ -82,31 +87,15 @@ function () {
       // 3. If there's an anchor link as a child, tap won't be triggered on link
 
 
-      console.log({
-        managerTouch: _this.managerTouch,
-        contextTouch: _this.contextTouch,
-        optionsTouch: _this.optionsTouch
-      });
-
       if (!(0, _predicates.shouldIgnoreTarget)(e.target)) {
         var $el = (0, _predicates.closest)(e.target, '.TreeView-box');
-
-        if ($el) {
-          $el.classList.add('is-draggin-a3');
-          navigator.vibrate([1]);
-        }
+        console.log($el);
+        if ($el) _this.actionDragStart($el);
       }
 
       var clientOffset = (0, _offsets.getEventClientOffset)(e);
-      console.log({
-        clientOffset: clientOffset
-      });
 
       if (clientOffset) {
-        console.log({
-          isTouchEvent: (0, _predicates.isTouchEvent)(e)
-        });
-
         if ((0, _predicates.isTouchEvent)(e)) {
           _this.lastTargetTouchFallback = e.targetTouches[0];
         }
@@ -138,9 +127,7 @@ function () {
     };
 
     this.handleTopMove = function (e) {
-      if (_this.timeout) {
-        clearTimeout(_this.timeout);
-      }
+      if (_this.timeout) clearTimeout(_this.timeout);
 
       if (!_this.document || _this.waitingForDelay) {
         return;
@@ -252,6 +239,7 @@ function () {
     this.handleTopMoveEndCapture = function (e) {
       var dragging = document.querySelector('.is-draggin-a3');
       if (dragging) dragging.classList.remove('is-draggin-a3');
+      if (_this.timeout) clearTimeout(_this.timeout);
       _this._isScrolling = false;
       _this.lastTargetTouchFallback = undefined;
 
