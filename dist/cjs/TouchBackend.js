@@ -83,7 +83,6 @@ function () {
 
       if (!(0, _predicates.shouldIgnoreTarget)(e.target)) {
         var $el = (0, _predicates.closest)(e.target, '.TreeView-box');
-        console.log($el);
 
         if ($el) {
           $el.classList.add('is-draggin-a3');
@@ -92,8 +91,15 @@ function () {
       }
 
       var clientOffset = (0, _offsets.getEventClientOffset)(e);
+      console.log({
+        clientOffset: clientOffset
+      });
 
       if (clientOffset) {
+        console.log({
+          isTouchEvent: (0, _predicates.isTouchEvent)(e)
+        });
+
         if ((0, _predicates.isTouchEvent)(e)) {
           _this.lastTargetTouchFallback = e.targetTouches[0];
         }
@@ -119,20 +125,12 @@ function () {
     };
 
     this.handleMove = function (_, targetId) {
-      var dragging = document.querySelector('.is-draggin-a3');
-      console.log(dragging);
-      if (dragging) dragging.classList.remove('is-draggin-a3');
-
       if (_this.dragOverTargetIds) {
         _this.dragOverTargetIds.unshift(targetId);
       }
     };
 
     this.handleTopMove = function (e) {
-      var dragging = document.querySelector('.is-draggin-a3');
-      console.log(dragging);
-      if (dragging) dragging.classList.remove('is-draggin-a3');
-
       if (_this.timeout) {
         clearTimeout(_this.timeout);
       }
@@ -148,8 +146,10 @@ function () {
 
       if (!clientOffset) {
         return;
-      } // If the touch move started as a scroll, or is is between the scroll angles
+      }
 
+      var dragging = document.querySelector('.is-draggin-a3');
+      if (dragging) dragging.classList.remove('is-draggin-a3'); // If the touch move started as a scroll, or is is between the scroll angles
 
       if (_this._isScrolling || !_this.monitor.isDragging() && (0, _math.inAngleRanges)(_this._mouseClientOffset.x || 0, _this._mouseClientOffset.y || 0, clientOffset.x, clientOffset.y, _this.options.scrollAngleRanges)) {
         _this._isScrolling = true;
@@ -244,7 +244,6 @@ function () {
 
     this.handleTopMoveEndCapture = function (e) {
       var dragging = document.querySelector('.is-draggin-a3');
-      console.log(dragging);
       if (dragging) dragging.classList.remove('is-draggin-a3');
       _this._isScrolling = false;
       _this.lastTargetTouchFallback = undefined;
@@ -311,9 +310,9 @@ function () {
       }
 
       (0, _invariant.invariant)(!TouchBackend.isSetUp, 'Cannot have two Touch backends at the same time.');
-      TouchBackend.isSetUp = true;
-      this.addEventListener(this.window, 'start', this.getTopMoveStartHandler());
-      this.addEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
+      TouchBackend.isSetUp = true; //this.addEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
+
+      this.addEventListener(this.window, 'start', this.handleTopMoveStartDelay);
       this.addEventListener(this.window, 'move', this.handleTopMove);
       this.addEventListener(this.window, 'move', this.handleTopMoveCapture, true);
       this.addEventListener(this.window, 'end', this.handleTopMoveEndCapture, true);
@@ -334,8 +333,8 @@ function () {
       }
 
       TouchBackend.isSetUp = false;
-      this._mouseClientOffset = {};
-      this.removeEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
+      this._mouseClientOffset = {}; //this.removeEventListener(this.window, 'start', this.handleTopMoveStartCapture, true);
+
       this.removeEventListener(this.window, 'start', this.handleTopMoveStartDelay);
       this.removeEventListener(this.window, 'move', this.handleTopMoveCapture, true);
       this.removeEventListener(this.window, 'move', this.handleTopMove);
